@@ -4,12 +4,14 @@ include '../Helpers/DatabaseConfig.php';
 if (
     isset($_POST['fullname']) &&
     isset($_POST['email']) &&
+    isset($_POST['Phone']) &&
     isset($_POST['password'])
 
 ) {
     global $CON;
     $email = $_POST['email'];
     $fullname = $_POST['fullname'];
+    $Phone = $_POST['Phone'];
     $password = $_POST['password'];
 
     $sql = "Select * from users where email ='$email'";
@@ -25,7 +27,7 @@ if (
         return;
     } else {
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-        $sql = "INSERT INTO users (full_name, email, password,role) VALUES ('$fullname', '$email', '$hashed_password','user')";
+        $sql = "INSERT INTO users (full_name, email, Phone, password,role) VALUES ('$fullname', '$email','$Phone', '$hashed_password','user')";
         $result = mysqli_query($CON, $sql);
 
         if ($result) {
@@ -49,7 +51,7 @@ if (
         array(
             "success" => false,
             "message" => "Please fill all the fields!",
-            "required fields" => "fullname, email, password"
+            "required fields" => "fullname, email,Phone No, password"
         )
     );
 }

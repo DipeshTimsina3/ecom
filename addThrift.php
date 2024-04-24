@@ -6,7 +6,6 @@ if (
     isset($_POST['title']) &&
     isset($_POST['description']) &&
     isset($_POST['price']) &&
-    isset($_POST['category']) &&
     isset($_POST['token']) &&
     isset($_FILES['image'])
 
@@ -14,23 +13,9 @@ if (
     global $CON;
     $title = $_POST['title'];
     $token = $_POST['token'];
+    $userID = getUserId($token);
     $description = $_POST['description'];
     $price = $_POST['price'];
-    $category = $_POST['category'];
-
-
-    $checkAdmin = isAdmin($token);
-
-    if (!$checkAdmin) {
-        echo json_encode(
-            array(
-                "success" => false,
-                "message" => "You are not authorized!"
-            )
-        );
-        die();
-    }
-
     $image_name = $_FILES['image']['name'];
     $image_tmp_name = $_FILES['image']['tmp_name'];
     $image_size = $_FILES['image']['size'];
@@ -61,7 +46,7 @@ if (
 
 
 
-    $sql = "INSERT INTO products (title, description, price, category_id, image_url) VALUES ('$title', '$description', '$price', '$category', '$upload_path')";
+    $sql = "INSERT INTO thriftproduct (title, description, price, images,user_id) VALUES ('$title', '$description', '$price', '$upload_path','$userID')";
     $result = mysqli_query($CON, $sql);
 
     if ($result) {
@@ -84,7 +69,7 @@ if (
         array(
             "success" => false,
             "message" => "Please fill all the fields!",
-            "required fields" => "token, title, description, price, category, image"
+            "required fields" => "token, title, description, price, images"
         )
     );
 }

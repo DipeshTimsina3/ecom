@@ -3,7 +3,7 @@
 $HOST = "localhost";
 $USER = "root";
 $PASS = "";
-$DB = "ecom";
+$DB = "ecom2";
 
 
 

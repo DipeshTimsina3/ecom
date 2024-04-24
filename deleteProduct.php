@@ -33,7 +33,7 @@ if (
 
     $product_id = $_POST['product_id'];
 
-    $sql = "select * from products where product_id = $product_Id";
+    $sql = "select * from products where product_id = $product_id";
 
     $result = mysqli_query($CON, $sql);
 

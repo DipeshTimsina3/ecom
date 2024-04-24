@@ -1,41 +1,32 @@
 <?php
-
 include './Helpers/DatabaseConfig.php';
 include './Helpers/Authenication.php';
 
-if (!isset($_POST['token'])) {
-    echo json_encode(
-        array(
-            "success" => false,
-            "message" => "You are not authorized!"
-        )
-    );
-    die();
-}
 
 global $CON;
-
 $token = $_POST['token'];
 $userId = getUserId($token);
 
-
-$sql = "SELECT user_id,full_name,Phone,email,role from users where user_id='$userId'";
+$sql = "Select favourites from users where user_id='$userId'";
 $result = mysqli_query($CON, $sql);
+
+
 
 if ($result) {
     $row = mysqli_fetch_assoc($result);
     echo json_encode(
         array(
             "success" => true,
-            "message" => "User fetched successfully!",
-            "data" => $row
+            "message" => "Favourites fetched successfully!",
+            "favourite_list" => $row['favourites'],
+
         )
     );
 } else {
     echo json_encode(
         array(
             "success" => false,
-            "message" => "Fetching user failed!"
+            "message" => "Something went wrong!"
         )
     );
 }
